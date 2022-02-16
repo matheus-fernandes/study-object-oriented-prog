@@ -1,0 +1,20 @@
+Date: 02-13-22
+
+"S" is for Single responsibility
+A class should do one thing, and do it well. It should only have one reason to change.
+
+"O" is for Open/closed principle
+A class should be open to extension, but closed to modification.
+
+"L" for Liskov substitutability
+Adding a subtype through inheritance should not break the existing code. I call this the "no surprises" principle. That is, if the system is working and I add a new class that is derived from another, the system should still work.
+
+"I" for Interface segregation
+Essentially the single responsibility principle, applied to interfaces.
+
+"D" is for Dependency inversion
+High-level classes shouldn't have to change when a low-level class is modified. High-level classes should define an abstraction that the lower-level class conforms to.
+
+Date: 02-15-22
+
+Dependency Injection: We can use the concept of dependency injection. Injection is the idea that an object is given (or "injected") an object to use, instead of making the object itself. You have the object that has the injection, have a method that takes an interface as a parameter. That way, some other place in the code can instantiate an object that implements the interface, and then use that object for what gets injected.
