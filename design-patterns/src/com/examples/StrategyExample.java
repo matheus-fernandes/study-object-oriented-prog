@@ -1,4 +1,4 @@
-package examples;
+package com.examples;
 
 import com.strategy.client.Duck;
 import com.strategy.displaying.*;
