@@ -1,8 +1,7 @@
-package com.cardgame.com.cardgame.controller;
+package com.cardgame.controller;
 
-import com.cardgame.com.cardgame.games.evaluator.WinnerEvaluator;
-import com.cardgame.com.cardgame.view.CommandLineView;
-import com.cardgame.com.cardgame.view.GameView;
+import com.cardgame.evaluator.WinnerEvaluator;
+import com.cardgame.view.GameView;
 import com.cardgame.model.Card;
 import com.cardgame.model.Deck;
 import com.cardgame.model.Player;
@@ -11,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
+    final int MAX_PLAYERS = 5;
+
     GameView view;
     Deck deck;
     List<Player> players;
@@ -24,25 +25,38 @@ public class GameController {
     }
 
     public void run(){
-        boolean newGame = true;
-        setPlayers(view.askPlayersNames());
-
-        while(newGame){
-            playTheGame();
-            newGame = view.askForNewGame();
-        }
+        setPlayers();
+        dealCardsWhileWanted();
+        restartIfWanted();
     }
 
-    private void setPlayers(List<String> names){
+    private void setPlayers(){
+        List<String> names = view.askPlayersNames(MAX_PLAYERS);
+
         this.players = new ArrayList<>();
         for (int i = 0; i < names.size(); i++){
             addPlayer(names.get(i));
         }
     }
 
-
     private void addPlayer(String name) {
         players.add(new Player(name));
+    }
+
+    private void dealCardsWhileWanted(){
+        boolean shouldDealCards = true;
+        while(shouldDealCards){
+            playTheGame();
+            shouldDealCards = view.askForNewDeal();
+        }
+    }
+
+    private void restartIfWanted(){
+        boolean shouldRestart = view.askForRestart();
+
+        if (shouldRestart){
+            run();
+        }
     }
 
     private void playTheGame() {

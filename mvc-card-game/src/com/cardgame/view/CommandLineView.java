@@ -1,4 +1,4 @@
-package com.cardgame.com.cardgame.view;
+package com.cardgame.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,23 +11,37 @@ public class CommandLineView implements GameView {
     private final Scanner input = new Scanner(in);
 
     @Override
-    public List<String> askPlayersNames(){
+    public List<String> askPlayersNames(int maxOfPlayers){
         printNamesRequisition();
-        return readNames();
+        return readNames(maxOfPlayers);
     }
 
-    private List<String> readNames(){
-        List<String> names = new ArrayList<>();
+    private List<String> readNames(int maxOfPlayers){
+        List<String> namesAlreadyGotten = new ArrayList<>();
 
         String name = readName();
-        while (isValidName(name)) {
-            names.add(name);
-            showPlayerName(name);
+        while (shouldContinueAskingNameLine(maxOfPlayers, namesAlreadyGotten, name)) {
+            if (isValidName(name)) {
+                namesAlreadyGotten.add(name);
+                showPlayerName(name);
+            }
             name = readName();
         }
 
         reportNameCollected();
-        return names;
+        return namesAlreadyGotten;
+    }
+
+    private boolean shouldContinueAskingNameLine(int maxOfPlayers, List<String> namesAlreadyGotten, String newName){
+        if (namesAlreadyGotten.size() >= maxOfPlayers){
+            return false;
+        }
+
+        if (!isValidName(newName)){
+            return namesAlreadyGotten.isEmpty();
+        }
+
+        return true;
     }
 
     private String readName(){
@@ -58,10 +72,34 @@ public class CommandLineView implements GameView {
     }
 
     @Override
-    public boolean askForNewGame() {
-        out.println("\nPress [ENTER] to deal again");
-        input.nextLine();
-        return true;
+    public boolean askForNewDeal() {
+        final String NOT = "N";
+
+        out.println("\nPress [ENTER] to deal again or [" + NOT + "] to not:");
+        String line = input.nextLine();
+
+        if (line.isEmpty()){
+            return true;
+        }
+        else if (NOT.equalsIgnoreCase(line)){
+            return false;
+        }
+
+        return askForNewDeal();
+    }
+
+    @Override
+    public boolean askForRestart() {
+        final String RESTART = "R";
+
+        out.println("\nPress [" + RESTART + "] to restart all the game or any other key to quit:");
+        String line = input.nextLine();
+
+        if (RESTART.equalsIgnoreCase(line)){
+            return true;
+        }
+
+        return false;
     }
 
     private void showPlayerName(String playerName) {

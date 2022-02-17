@@ -1,4 +1,4 @@
-package com.cardgame.com.cardgame.games.evaluator;
+package com.cardgame.evaluator;
 
 import com.cardgame.error.HandEmptyException;
 import com.cardgame.model.Card;
@@ -6,7 +6,7 @@ import com.cardgame.model.Player;
 
 import java.util.List;
 
-public class LowCardWinnerEvaluator extends ScoreCardWinnerEvaluator {
+public class HighCardWinnerEvaluator extends ScoreCardWinnerEvaluator{
     @Override
     public Player evaluateWinner(List<Player> players){
         return players.stream()
@@ -19,7 +19,7 @@ public class LowCardWinnerEvaluator extends ScoreCardWinnerEvaluator {
         Card card1 = player1.getFirstCard();
         Card card2 = player2.getFirstCard();
 
-        return compareCards(card2, card1);
+        return compareCards(card1, card2);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.cardgame.com.cardgame.games.evaluator;
+package com.cardgame.evaluator;
 
 
 import com.cardgame.model.Player;
