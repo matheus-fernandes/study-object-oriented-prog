@@ -6,7 +6,7 @@ import patterns.state.architecture.GateState;
 
 public class ProcessingState implements GateState {
     @Override
-    public void beginWith(Gate gate) {
+    public void configGate(Gate gate) {
         gate.toWait();
     }
 

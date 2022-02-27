@@ -6,16 +6,19 @@ public abstract class Gate implements GateActions{
 
     public Gate(GateState initialState){
         this.state = initialState;
-        this.state.beginWith(this);
+        this.state.configGate(this);
         this.display();
     }
 
-    public void handle(GateEvent event) {
-        GateState next = state.nextFor(event);
-        next.beginWith(this);
-
-        this.state = next;
+    public void handleEvent(GateEvent event) {
+        this.updateToNextState(event);
         this.display();
+    }
+
+    private void updateToNextState(GateEvent event){
+        GateState next = state.nextFor(event);
+        next.configGate(this);
+        this.state = next;
     }
 
     protected abstract void display();
